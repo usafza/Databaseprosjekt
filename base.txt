@@ -129,6 +129,7 @@ on update cascade
 on delete cascade
 );
 
+
 create table fremførtav (
 personID int Not Null, 
 musikkID int Not Null, 
@@ -192,6 +193,4 @@ Create table MusikkForProduksjon(
 	  Constraint MusikkForProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
     On update cascade
     On delete cascade);
-
-
 
