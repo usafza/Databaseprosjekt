@@ -1,0 +1,48 @@
+Create table SkuespillerIProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    Rolle varchar(45),
+    
+    Constraint SkuespillerIProduksjonFK1 foreign key(PersonID) references Skuespiller(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint SkuespillerIProduksjonFK2 foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+    
+Create table RegissørIProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    
+    Constraint RegissørIProduksjonFK1 foreign key(PersonID) references Regissør(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint RegissørIProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+    
+Create table ManusforfatterIProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    
+    Constraint ManusforfatterIProduksjonFK1 foreign key(PersonID) references Manusforfatter(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint ManusforfatterIProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+
+Create table MusikkForProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    
+    Constraint MusikkForProduksjonFK1 foreign key(PersonID) references Regissør(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint MusikkForProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
