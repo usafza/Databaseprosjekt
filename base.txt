@@ -1,0 +1,197 @@
+Create table bidragsyter (
+PersonID INT auto_increment primary key,
+Navn varchar(50),
+Fødselsår INT,
+Fødselsland varchar(30),
+constraint aldersjekk check (Fødselsår < 2021));
+
+create table selskap (
+SelskapsID int auto_increment primary key,
+URL varchar(100),
+Adresse varchar(100),
+Land varchar(50)
+);
+
+create table sjanger (
+SjangerID int auto_increment primary key,
+Navn varchar(50) ,
+Beskrivelse varchar(600)
+);
+
+create table musikk (
+musikkID int auto_increment primary key, 
+tittel varchar(50),
+varighet int 
+);
+
+create table serie (
+SerieID int auto_increment Primary Key,
+Startaar int, 
+Navn varchar(50)
+);
+
+create table anmeldelse (
+AnmeldelseID int auto_increment primary key, 
+Bedoommelse int, 
+Text varchar(700), 
+constraint bedoommelsesjekk check (11>Bedoommelse and Bedoommelse>0)
+);
+
+create table sesong (
+sesongNummer int auto_increment primary key,
+serieID int,
+constraint sesongISerie foreign key (SerieID) references serie(SerieID) 
+On update cascade 
+On delete cascade
+);
+
+
+create table medieproduksjon(
+MP int auto_increment primary key
+);
+
+create table film (
+filmID int auto_increment primary key,
+varighet int, 
+utgivelsesår int, 
+utgivelsesdato date, 
+tittel varchar(50), 
+storyline varchar(400), 
+utgivelsesmedium varchar(50), 
+utgittPåVideo boolean,
+MP int,
+constraint surrogatnøkkelFilm foreign key (MP) references medieproduksjon(MP)
+On update cascade 
+On delete cascade
+); 
+
+create table episode (
+episodeNummer int auto_increment primary key,
+tittel varchar(50),
+varighet int, 
+lanseringsDato date, 
+storyLine varchar(400), 
+utgittPåVideo boolean, 
+sesongNummer int, 
+MP int,
+constraint episodeISesong foreign key (sesongNummer) references sesong(sesongNummer)
+On update cascade 
+On delete cascade,
+constraint surrogatnøkkelEpisode foreign key (MP) references medieproduksjon(MP)
+On update cascade 
+On delete cascade
+);
+
+create table skuespiller (
+PersonID int auto_increment key,
+constraint personNummer foreign key (PersonID) references bidragsyter(PersonID) 
+On update cascade 
+On delete cascade
+);
+
+create table regissør (
+PersonID int auto_increment key,
+constraint personNummerregissør foreign key (PersonID) references bidragsyter(PersonID) 
+On update cascade 
+On delete cascade
+);
+
+create table mausForfatter (
+PersonID int auto_increment key,
+constraint personNummerManusForfatter foreign key (PersonID) references bidragsyter(PersonID) 
+On update cascade 
+On delete cascade
+);
+
+create table komponist (
+personID int auto_increment key,
+constraint personNummerKomponist foreign key (PersonID) references bidragsyter(PersonID) 
+On update cascade 
+On delete cascade
+);
+
+create table artist (
+personID int auto_increment key,
+constraint personNummerArtist foreign key (personID) references bidragsyter(personID) 
+On update cascade 
+On delete cascade
+);
+
+create table produsertAv (
+personID int Not Null, 
+musikkID int Not Null, 
+
+constraint komponistFK foreign key (personID) references komponist(personID)
+on update cascade
+on delete cascade,
+constraint musikkFKkomponist foreign key (musikkID) references musikk(musikkID)
+on update cascade
+on delete cascade
+);
+
+create table fremførtav (
+personID int Not Null, 
+musikkID int Not Null, 
+
+constraint artistFK foreign key (personID) references komponist(personID)
+on update cascade
+on delete cascade,
+constraint musikkFKartist foreign key (musikkID) references musikk(musikkID)
+on update cascade
+on delete cascade
+);
+
+
+
+
+Create table SkuespillerIProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    Rolle varchar(45),
+    
+    Constraint SkuespillerIProduksjonFK1 foreign key(PersonID) references Skuespiller(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint SkuespillerIProduksjonFK2 foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+    
+Create table RegissørIProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    
+    Constraint RegissørIProduksjonFK1 foreign key(PersonID) references Regissør(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint RegissørIProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+    
+Create table ManusforfatterIProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    
+    Constraint ManusforfatterIProduksjonFK1 foreign key(PersonID) references Manusforfatter(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint ManusforfatterIProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+
+Create table MusikkForProduksjon(
+	  PersonID int not null,
+    MP int not null,
+    
+    Constraint MusikkForProduksjonFK1 foreign key(PersonID) references Regissør(PersonID)
+    On update cascade
+    On delete cascade,
+    
+	  Constraint MusikkForProduksjonFK2  foreign key(MP) references MedieProduksjon(MP)
+    On update cascade
+    On delete cascade);
+
+
+
